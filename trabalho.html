@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hollow Knight Wiki</title>
+
+  <style>
+    :root {
+      --cor-principal: #3366cc;
+      --cor-fundo: #f8f9fa;
+      --cor-borda: #a2a9b1;
+      --cor-texto: #202122;
+      --cor-suave: #eaecf0;
+      --cor-link: #3366cc;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--cor-texto);
+      background: white;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
+
+    header {
+      border-bottom: 1px solid var(--cor-borda);
+      background: var(--cor-fundo);
+    }
+
+    .barra-superior {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      max-width: 1300px;
+      margin: auto;
+      padding: 14px 24px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #202122;
+      font-size: 22px;
+      font-weight: bold;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .logo-icone {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      color: white;
+      background: var(--cor-principal);
+      border-radius: 50%;
+      place-items: center;
+      font-size: 21px;
+    }
+
+    .busca {
+      display: flex;
+      flex: 1;
+      max-width: 560px;
+    }
+
+    .busca input {
+      width: 100%;
+      padding: 10px 13px;
+      border: 1px solid var(--cor-borda);
+      border-right: 0;
+      font-size: 15px;
+    }
+
+    .busca button {
+      padding: 0 18px;
+      color: white;
+      background: var(--cor-principal);
+      border: 1px solid var(--cor-principal);
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .menu-mobile {
+      display: none;
+      padding: 8px 12px;
+      border: 1px solid var(--cor-borda);
+      background: white;
+      cursor: pointer;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr) 260px;
+      gap: 28px;
+      max-width: 1300px;
+      margin: auto;
+      padding: 28px 24px;
+    }
+
+    aside {
+      font-size: 14px;
+    }
+
+    .menu-lateral {
+      position: sticky;
+      top: 20px;
+    }
+
+    .menu-lateral h3,
+    .caixa-lateral h3 {
+      margin: 0 0 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--cor-borda);
+      font-size: 16px;
+    }
+
+    .menu-lateral ul {
+      padding: 0;
+      margin: 0 0 24px;
+      list-style: none;
+    }
+
+    .menu-lateral li {
+      margin: 7px 0;
+    }
+
+    a {
+      color: var(--cor-link);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      min-width: 0;
+    }
+
+    .titulo-pagina {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 15px;
+      border-bottom: 1px solid var(--cor-borda);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 34px;
+      font-weight: normal;
+    }
+
+    h2 {
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--cor-borda);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25px;
+      font-weight: normal;
+    }
+
+    h3 {
+      font-size: 19px;
+    }
+
+    .abas {
+      display: flex;
+      gap: 12px;
+      font-size: 14px;
+    }
+
+    .abas a {
+      padding: 8px 4px;
+    }
+
+    .aba-ativa {
+      border-bottom: 2px solid var(--cor-principal);
+      font-weight: bold;
+    }
+
+    .introducao {
+      margin: 20px 0;
+      padding: 16px;
+      border-left: 4px solid var(--cor-principal);
+      background: #f8f9fa;
+    }
+
+    .indice {
+      width: fit-content;
+      min-width: 250px;
+      margin: 20px 0;
+      padding: 12px 20px;
+      border: 1px solid var(--cor-borda);
+      background: var(--cor-fundo);
+    }
+
+    .indice strong {
+      display: block;
+      margin-bottom: 7px;
+      text-align: center;
+    }
+
+    .indice ol {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    .caixa-informacao {
+      float: right;
+      width: 250px;
+      margin: 0 0 20px 20px;
+      border: 1px solid var(--cor-borda);
+      background: var(--cor-fundo);
+      font-size: 14px;
+    }
+
+    .caixa-informacao h3 {
+      margin: 0;
+      padding: 10px;
+      color: white;
+      background: var(--cor-principal);
+      text-align: center;
+    }
+
+    .caixa-informacao table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .caixa-informacao td {
+      padding: 8px;
+      border-bottom: 1px solid #c8ccd1;
+      vertical-align: top;
+    }
+
+    .caixa-informacao td:first-child {
+      width: 42%;
+      font-weight: bold;
+    }
+
+    .caixa-lateral {
+      padding: 15px;
+      border: 1px solid var(--cor-borda);
+      background: var(--cor-fundo);
+    }
+
+    .caixa-lateral ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    footer {
+      margin-top: 30px;
+      padding: 25px;
+      border-top: 1px solid var(--cor-borda);
+      background: var(--cor-fundo);
+      color: #54595d;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 950px) {
+      .layout {
+        grid-template-columns: 210px minmax(0, 1fr);
+      }
+
+      .coluna-direita {
+        display: none;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .barra-superior {
+        flex-wrap: wrap;
+        padding: 12px 16px;
+      }
+
+      .busca {
+        order: 3;
+        flex-basis: 100%;
+        max-width: none;
+      }
+
+      .menu-mobile {
+        display: block;
+      }
+
+      .layout {
+        display: block;
+        padding: 20px 16px;
+      }
+
+      .menu-lateral {
+        display: none;
+        position: static;
+        margin-bottom: 24px;
+        padding: 15px;
+        border: 1px solid var(--cor-borda);
+        background: var(--cor-fundo);
+      }
+
+      .menu-lateral.aberto {
+        display: block;
+      }
+
+      .titulo-pagina {
+        display: block;
+      }
+
+      .abas {
+        margin-top: 10px;
+      }
+
+      .caixa-informacao {
+        float: none;
+        width: 100%;
+        margin: 20px 0;
+      }
+
+      h1 {
+        font-size: 29px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="barra-superior">
+      <a href="#" class="logo">
+        <span class="logo-icone">HK</span>
+        Hollow Knight Wiki
+      </a>
+
+      <form class="busca" onsubmit="buscar(event)">
+        <input
+          type="search"
+          id="campoBusca"
+          placeholder="Pesquisar na Hollow Knight Wiki..."
+          aria-label="Pesquisar"
+        >
+        <button type="submit">Buscar</button>
+      </form>
+
+      <button class="menu-mobile" onclick="alternarMenu()">
+        ☰ Menu
+      </button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <aside class="menu-lateral" id="menuLateral">
+      <h3>Navegação</h3>
+
+      <ul>
+        <li><a href="#inicio">Página inicial</a></li>
+        <li><a href="#conteudo">Conteúdo em destaque</a></li>
+        <li><a href="#artigos">Artigos populares</a></li>
+        <li><a href="#sobre">Sobre a Hollow Knight Wiki</a></li>
+      </ul>
+
+      <h3>Explorar</h3>
+
+      <ul>
+        <li><a href="C:\Users\Aluno.N1148517-AAE449\Documents\Códigos\Trabalho - Site\conquistas.html" class="botao">Conquistas</a></li>
+        <li><a href="C:\Users\Aluno.N1148517-AAE449\Documents\Códigos\Trabalho - Site\finais.html" class="botao">Finais</a></li>
+        <li><a href="C:\Users\Aluno.N1148517-AAE449\Documents\Códigos\Trabalho - Site\almadeaço.html">Modo Alma de Aço</a></li>
+        <li><a href="C:\Users\Aluno.N1148517-AAE449\Documents\Códigos\Trabalho - Site\buscadordedeuses.html">Modo Buscador de Deuses</a></li>
+        <li><a href="C:\Users\Aluno.N1148517-AAE449\Documents\Códigos\Trabalho - Site\ferrão.html">Ferrão</a></li>
+        <li><a href="C:\Users\Aluno.N1148517-AAE449\Documents\Códigos\Trabalho - Site\feitiços.html">Feitiços</a></li>
+        <li><a href="C:\Users\Aluno.N1148517-AAE449\Documents\Códigos\Trabalho - Site\amuletos.html">Amuletos</a></li>
+        <li><a href="C:\Users\Aluno.N1148517-AAE449\Documents\Códigos\Trabalho - Site\diáriodocaçador.html">Diário do Caçador</a></li>
+      </ul>
+
+      <h3>Ferramentas</h3>
+
+      <ul>
+        <li><a href="#">Páginas relacionadas</a></li>
+        <li><a href="#">Alterações recentes</a></li>
+        <li><a href="#">Página aleatória</a></li>
+      </ul>
+    </aside>
+
+    <main id="inicio">
+      <div class="titulo-pagina">
+        <div>
+          <h1>Conhecimento livre</h1>
+        </div>
+
+        <nav class="abas">
+          <a href="#" class="aba-ativa">Artigo</a>
+          <a href="#">Discussão</a>
+        </nav>
+      </div>
+
+      <p class="introducao">
+        <strong>Bem-vindo à Hollow Knight Wiki!</strong>
+        Esta é uma enciclopédia online criada para reunir informações
+        claras, organizadas e acessíveis sobre Hollow Knight, o jogo eletrônico criado e lançado pela Team Cherry em 2017.
+      </p>
+
+      <div class="caixa-informacao">
+        <h3>Hollow Knight Wiki</h3>
+
+        <table>
+          <tr>
+            <td>Tipo</td>
+            <td>Enciclopédia online</td>
+          </tr>
+          <tr>
+            <td>Idioma</td>
+            <td>Português</td>
+          </tr>
+          <tr>
+            <td>Conteúdo</td>
+            <td>Hollow Knight</td>
+          </tr>
+          <tr>
+            <td>Fundação</td>
+            <td>2026</td>
+          </tr>
+          <tr>
+            <td>Status</td>
+            <td>Ativo</td>
+          </tr>
+        </table>
+      </div>
+
+      <section id="conteudo">
+        <h2>Sobre este projeto</h2>
+
+        <p>
+          <strong>Hollow Knight Wiki</strong> é um projeto de site informativo criado a partir de muito carinho e dedicação para o auxílio de iniciantes em Hollow Knight.
+
+      <section id="artigos">
+        <h2>Artigos populares</h2>
+
+        <ul>
+          <li><a href="C:\Users\Aluno.N1148517-AAE449\Documents\Códigos\Trabalho - Site\finais.html">Finais</a></li>
+          <li><a href="C:\Users\Aluno.N1148517-AAE449\Documents\Códigos\Trabalho - Site\amuletos.html">Amuletos</a></li>
+          <li><a href="C:\Users\Aluno.N1148517-AAE449\Documents\Códigos\Trabalho - Site\diáriodocaçador.html">Diário do Caçador</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <aside class="coluna-direita">
+
+  <footer id="sobre">
+    <p>© 2026 Hollow Knight Wiki — Projeto demonstrativo em HTML e CSS.</p>
+    <p>
+    </p>
+  </footer>
+
+  <script>
+    function alternarMenu() {
+      const menu = document.getElementById("menuLateral");
+      menu.classList.toggle("aberto");
+    }
+
+    function buscar(event) {
+      event.preventDefault();
+
+      const termo = document
+        .getElementById("campoBusca")
+        .value
+        .trim()
+        .toLowerCase();
+
+      if (!termo) {
+        alert("Digite algo para pesquisar.");
+        return;
+      }
+
+      const textoPagina = document.body.innerText.toLowerCase();
+
+      if (textoPagina.includes(termo)) {
+        alert("O termo foi encontrado nesta página.");
+      } else {
+        alert("Nenhum resultado encontrado.");
+      }
+    }
+  </script>
+
+</body>
+</html>

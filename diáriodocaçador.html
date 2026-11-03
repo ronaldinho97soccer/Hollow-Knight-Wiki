@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diário do Caçador</title>
+
+  <style>
+    body {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      color: #202122;
+      background: #f8f9fa;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      padding-bottom: 10px;
+      border-bottom: 1px solid #a2a9b1;
+    }
+
+    .voltar {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #3366cc;
+      text-decoration: none;
+    }
+
+    .cartao {
+      margin: 12px 0;
+      padding: 16px;
+      border: 1px solid #a2a9b1;
+      background: white;
+    }
+
+    .cartao h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .cartao p {
+      margin: 4px 0;
+      color: #54595d;
+      line-height: 1.5;
+    }
+
+    #busca {
+      box-sizing: border-box;
+      width: 100%;
+      margin: 12px 0;
+      padding: 10px;
+      border: 1px solid #a2a9b1;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <a class="voltar" href="trabalho.html">← Voltar à página inicial</a>
+
+  <h1>Diário do Caçador</h1>
+  <p>Consulte as criaturas de Hallownest e acompanhe os registros necessários para completar o diário.</p>
+
+  <input
+    id="busca"
+    type="search"
+    placeholder="Buscar criatura..."
+    aria-label="Buscar criatura"
+  >
+
+  <div id="lista-criaturas"></div>
+
+  <script>
+    const criaturas = [
+      { nome: "Crawlid", derrotas: ("0 ~ O registro completo já está desbloqueado após obter o Diário do Caçador.") },
+      { nome: "Vengemosca", derrotas: 45 },
+      { nome: "Rei Vengemosca", derrotas: 2 },
+      { nome: "Mosca", derrotas: 25 },
+      { nome: "Mãe Mosca", derrotas: 3 },
+      { nome: "Tiktik", derrotas: 30 },
+      { nome: "Aspid Caçador", derrotas: 20 },
+      { nome: "Aspid Mãe", derrotas: 15 },
+      { nome: "Aspid Filhote", derrotas: 30 },
+      { nome: "Goam", derrotas: ("Registro ~ O registro pode ser obtido na Encruzilhada Esquecida inspecionando um Goam fossilizado.")},
+      { nome: "Carcaça Errante", derrotas: 35 },
+      { nome: "Carcaça Chifruda", derrotas: 35 },
+      { nome: "Carcaça Saltadora", derrotas: 35 },
+      { nome: "Carcaça Valente", derrotas: 35 },
+      { nome: "Carcaça Guerreira", derrotas: 10 },
+      { nome: "Carcaça Guardiã", derrotas: 6 },
+      { nome: "Carcaça Sepultada", derrotas: 10 },
+      { nome: "Falso cavaleiro", derrotas: 1 },
+      { nome: "Verme", derrotas: 2 },
+      { nome: "Inseto Reparador", derrotas: ("1 ~ Aumenta a contagem total de registros em um. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador.")},
+      { nome: "Germe de Vida", derrotas: 10 },
+      { nome: "Baldur", derrotas: 20 },
+      { nome: "Baldur Ancião", derrotas: 1 },
+      { nome: "Rastejante Musgoso", derrotas: 30 },
+      { nome: "Musgoso Voador", derrotas: 25 },
+      { nome: "Musgoso", derrotas: 25 },
+      { nome: "Musgoso Volátil", derrotas: 25 },
+      { nome: "Devorador de Tolos", derrotas: 15 },
+      { nome: "Mosquito", derrotas: 25 },
+      { nome: "Obble", derrotas: 20 },
+      { nome: "Gulka", derrotas: 15 },
+      { nome: "Mosca Mascarada", derrotas: 15 },
+      { nome: "Batedor Musgoso", derrotas: 15 },
+      { nome: "Batedor Musgoso Imenso", derrotas: 1 },
+      { nome: "Cavaleiro Musgoso", derrotas: 8 },
+      { nome: "Vagabundo Musgoso", derrotas: ("10 ~ Se eles foram vencidos pela Infecção antes de serem mortos, seus cadáveres podem ser inspecionados para obter o registro.")},
+      { nome: "Durandoo", derrotas: 8 },
+      { nome: "Duranda", derrotas: 8 },
+      { nome: "Aluba", derrotas: 1 },
+      { nome: "Lumélula Elétrica", derrotas: ("Registro ~ O registro pode ser obtido nos Arquivos da Professora depois de inspecionar um tanque.")},
+      { nome: "Uoma", derrotas: 20 },
+      { nome: "Ooma", derrotas: 12 },
+      { nome: "Uumuu", derrotas: 1 },
+      { nome: "Ambloom", derrotas: 15 },
+      { nome: "Cria Fúngica", derrotas: 30 },
+      { nome: "Balão Fúngico", derrotas: 20 },
+      { nome: "Sporg", derrotas: 20 },
+      { nome: "Carcaça Fúngica", derrotas: 10 },
+      { nome: "Filhote Fúngico", derrotas: 20 },
+      { nome: "Guerreiro Fúngico", derrotas: 20 },
+      { nome: "Ogro Fúngico", derrotas: 8 },
+      { nome: "Louva-a-deus Jovem", derrotas: 25 },
+      { nome: "Louva-a-deus Guerreiro", derrotas: 25 },
+      { nome: "Lordes Louva-a-deus", derrotas: 1 },
+      { nome: "Carcaça Sentinela", derrotas: 25 },
+      { nome: "Sentinela Pesada", derrotas: 20 },
+      { nome: "Sentinela Alada", derrotas: 30 },
+      { nome: "Sentinela Lanceira", derrotas: 25 },
+      { nome: "Erro", derrotas: 25 },
+      { nome: "Louco", derrotas: 15 },
+      { nome: "Manipulador de Alma", derrotas: 20 },
+      { nome: "Guerreiro das Almas", derrotas: 2 },
+      { nome: "Mestre das Almas", derrotas: 1 },
+      { nome: "Carcaça Elegante", derrotas: 25 },
+      { nome: "Carcaça Covarde", derrotas: 25 },
+      { nome: "Carcaça Gulosa", derrotas: 25 },
+      { nome: "Carcaça Deslumbrante", derrotas: 1 },
+      { nome: "Carcaça Sentinela Grandiiosa", derrotas: 10 },
+      { nome: "Cavaleiro Sentinela", derrotas: 1 },
+      { nome: "O Colecionador", derrotas: 1 },
+      { nome: "Ventremosca", derrotas: 15 },
+      { nome: "Pilflip", derrotas: 20 },
+      { nome: "Hwurmp", derrotas: 20 },
+      { nome: "Saco Viscoso", derrotas: 5 },
+      { nome: "Defensor do Esterco", derrotas: 1 },
+      { nome: "Defensor Branco", derrotas: "1 ~ Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador" },
+      { nome: "Flukefey", derrotas: 15 },
+      { nome: "Flukemon", derrotas: 20 },
+      { nome: "Flukemunga", derrotas: 5 },
+      { nome: "Flukemarm", derrotas: 1 },
+      { nome: "Ácaro Cristalizadp", derrotas: 15 },
+      { nome: "Couraçado de Cristal", derrotas: 15 },
+      { nome: "Caçador de Cristal", derrotas: 20 },
+      { nome: "Rastejador de Cristal", derrotas: 15 },
+      { nome: "Carcaça Mineradora", derrotas: ("20 ~ Matar a Myla conta para o registro.") },
+      { nome: "Carcaça Cristalizada", derrotas: 15 },
+      { nome: "Guardião de Cristal", derrotas: 2 },
+      { nome: "Vengemosca Furiosa", derrotas: 15 },
+      { nome: "Mosca Volátil", derrotas: 15 },
+      { nome: "Carcaça Violenta", derrotas: ("15 ~ Se uma Carcaça Violenta se matar, a morte ainda conta para o registro.") },
+      { nome: "Carcaça Cuspidora", derrotas: 15 },
+      { nome: "Escavador", derrotas: 35 },
+      { nome: "Cavador Incubador", derrotas: 15 },
+      { nome: "Centopéia", derrotas: ("Registro ~ Registro pode ser obtido após inspecionar o corpo de uma Centopéia morta no sudeste do Ninho Profundo.") },
+      { nome: "Rouba-Cadáveres", derrotas: 15 },
+      { nome: "Aranha Filhote", derrotas: 25 },
+      { nome: "Aranha Caçadora", derrotas: 20 },
+      { nome: "Pequena Tecelã", derrotas: 20 },
+      { nome: "Devoto Espreitador", derrotas: 15 },
+      { nome: "Nosk", derrotas: 1 },
+      { nome: "Rastejador Sombrio", derrotas: 20 },
+      { nome: "Mawlek Menor", derrotas: 10 },
+      { nome: "Mawlurk", derrotas: 10 },
+      { nome: "Mawlek Incubador", derrotas: 1 },
+      { nome: "Germe de Luz", derrotas: ("20 ~ Matar os Germes de Luz que preenchem o Receptáculo Quebrado/ Parente Perdido não conta para seu registro.") },
+      { nome: "Balão Infectado", derrotas: ("10 ~ Matar Balões Infectados invocados pelo Receptáculo Quebrado/ Parente Perdido ou Nosk Alado não conta para seu registro.") },
+      { nome: "Receptáculo Quebrado", derrotas: 1 },
+      { nome: "Bubélula", derrotas: 20 },
+      { nome: "Aspid Primitiva", derrotas: 25 },
+      { nome: "Saltador", derrotas: 25 },
+      { nome: "Grande Saltador", derrotas: 10 },
+      { nome: "Mimíco de Larva", derrotas: 5 },
+      { nome: "Filhote de Colmeia", derrotas: 30 },
+      { nome: "Soldado da Colmeia", derrotas: 15 },
+      { nome: "Guardião da Colmeia", derrotas: 10 },
+      { nome: "Carcaça Colmeia", derrotas: 10 },
+      { nome: "Cavaleiro da Colmeia", derrotas: 1 },
+      { nome: "Carcaça Espinhosa", derrotas: 20 },
+      { nome: "Loodle", derrotas: 15 },
+      { nome: "Louva-a-deus Petra", derrotas: 16 },
+      { nome: "Louva-a-deus Traidor", derrotas: 15 },
+      { nome: "Lorde Traidor", derrotas: 1 },
+      { nome: "Baldur Afiado", derrotas: 20 },
+      { nome: "Mosquito Encouraçado", derrotas: 15 },
+      { nome: "Obble de Guerra", derrotas: 15 },
+      { nome: "Oblobbles", derrotas: 3 },
+      { nome: "Tolo Protegido", derrotas: 25 },
+      { nome: "Tolo Robusto", derrotas: 25 },
+      { nome: "Tolo Alado", derrotas: 25 },
+      { nome: "Tolo Pesado", derrotas: 20 },
+      { nome: "Loodle Letal", derrotas: 15 },
+      { nome: "Manipulador Voltaico", derrotas: 6 },
+      { nome: "Domador de Deuses", derrotas: 1 },
+      { nome: "Espreitadora Pálida", derrotas: 1 },
+      { nome: "Zote", derrotas: ("1 ~ Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador") },
+      { nome: "Príncipe Cinza Zote", derrotas: ("1 ~ Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador") },
+      { nome: "Zoutinho Alado", derrotas: ("1 ~ Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador") },
+      { nome: "Zoutinho Saltitante", derrotas: ("1 ~ Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador") },
+      { nome: "Zoutinho Volatíl", derrotas: ("1 ~ Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador") },
+      { nome: "Xero", derrotas: 1 },
+      { nome: "Gorb", derrotas: 1 },
+      { nome: "Ancião Hu", derrotas: 1 },
+      { nome: "Marmu", derrotas: 1 },
+      { nome: "Sem Olhos", derrotas: 1 },
+      { nome: "Galien", derrotas: 1 },
+      { nome: "Markoth", derrotas: 1 },
+      { nome: "Novato Grimmário", derrotas: ("1 ~ Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador") },
+      { nome: "Mestre Grimmário", derrotas: ("1 ~ Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador") },
+      { nome: "Pesadelo Grimmário", derrotas: ("1 ~ Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador") },
+      { nome: "Grimm", derrotas: ("1 ~ Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador") },
+      { nome: "Rei do Pesadelo", derrotas: ("1 ~ Registro não pode ser adquirido após o banimento. Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador.") },
+      { nome: "Irmãos Oro & Mato", derrotas: ("1 ~ Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador.") },
+      { nome: "Mestre da Pintura Sheo", derrotas: ("1 ~ Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador.") },
+      { nome: "Grande Sábio do Ferrão Sly", derrotas: ("1 ~ Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador.") },
+      { nome: "Armadura Alada", derrotas: ("10 ~ Registro é automaticamente desbloqueado após pegar a metade da direita do Fragmento Branco.") },
+      { nome: "Servo Real", derrotas: ("10 ~ Registro é automaticamente desbloqueado após pegar a metade da direita do Fragmento Branco.") },
+      { nome: "Armadura Real", derrotas: ("2 ~ Registro é automaticamente desbloqueado após pegar a metade da direita do Fragmento Branco.") },
+      { nome: "Irmão", derrotas: 25 },
+      { nome: "Tentáculos do Vazio", derrotas: ("Registro ~ Registro pode ser obtido após inspecionar uma impressão ao leste do farol no Abismo.") },
+      { nome: "Hornet", derrotas: 2 },
+      { nome: "Cavaleiro Vazio", derrotas: ("1 ~ Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador.") },
+      { nome: "Receptáculo Puro", derrotas: ("1 ~ Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador.") },
+      { nome: "Radiância", derrotas: ("1 ~ Aumenta em um o total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador.") },
+      { nome: "Sombra", derrotas: ("0 ~	Registro completo já é desbloqueado após obter o Diário do Caçador.") },
+      { nome: "Marca do Caçador", derrotas: ("Registro ~ Pode ser obtido após completar a maioria dos registros no Diário do Caçador. Não é incluído na contagem total de registros. Não é necessário para a conquista Caçador Habilidoso.") },
+      { nome: "Selo de Ligação", derrotas: ("Registro ~ Pode ser obtido após completar o Caminho da Dor. Não é incluído na contagem total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador.") },
+      { nome: "Ídolo do Vazio", derrotas: ("Registro ~ Pode ser obtido após derrotar todos os chefes no Salão dos Deuses em pelo menos uma dificuldade. Não é incluído na contagem total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador.") },
+      { nome: "Máscara Desgastada", derrotas: ("Registro ~ Pode ser obtido após completar todos os Panteões com cada ligação. Não é incluído na contagem total de registros. Não é necessário para a conquista Caçador Habilidoso. Não é necessário para a Marca do Caçador.") },
+    ];
+
+    const lista = document.getElementById("lista-criaturas");
+    const busca = document.getElementById("busca");
+
+    function mostrarCriaturas(filtro = "") {
+      const termo = filtro.trim().toLowerCase();
+
+      const resultados = criaturas.filter(criatura =>
+        criatura.nome.toLowerCase().includes(termo)
+      );
+
+      lista.innerHTML = resultados.map(criatura => `
+        <div class="cartao">
+          <h2>${criatura.nome}</h2>
+          <p>Derrotas: ${criatura.derrotas}</p>
+        </div>
+      `).join("");
+
+      if (resultados.length === 0) {
+        lista.innerHTML = "<p>Nenhuma criatura encontrada.</p>";
+      }
+    }
+
+    busca.addEventListener("input", () => mostrarCriaturas(busca.value));
+    mostrarCriaturas();
+  </script>
+</body>
+</html>
